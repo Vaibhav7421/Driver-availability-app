@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drivel App</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay loop muted>
+            <source src="static/background1.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="container">
+        <h1>Driver Availability Checker</h1>
+        <form id="availability-form">
+            <label for="distance">Distance Travelled (km):</label>
+            <input type="number" id="distance" name="distance" required>
+            
+            <label for="hours_logged">Hours Logged:</label>
+            <input type="number" id="hours_logged" name="hours_logged" required>
+            
+            <label for="climate">Climate Condition:</label>
+            <select id="climate" name="climate">
+                <option value="0">Clear</option>
+                <option value="1">Rainy</option>
+                <option value="2">Snowy</option>
+                <option value="3">Foggy</option>
+                <option value="4">Sunny</option>
+            </select>
+            
+            <label for="time_of_day">Time of Day:</label>
+            <select id="time_of_day" name="time_of_day">
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+                <option value="evening">Evening</option>
+                <option value="night">Night</option>
+            </select>
+            
+            <label for="traffic">Traffic Condition:</label>
+            <select id="traffic" name="traffic">
+                <option value="0">Low</option>
+                <option value="1">Moderate</option>
+                <option value="2">High</option>
+            </select>
+            
+            <button type="submit">Check Availability</button>
+        </form>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        document.getElementById('availability-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = {
+                distance: formData.get('distance'),
+                hours_logged: formData.get('hours_logged'),
+                climate: formData.get('climate'),
+                time_of_day: formData.get('time_of_day'),
+                traffic: formData.get('traffic')
+            };
+            
+            fetch('/check_availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent = `Number of available drivers: ${data.num_available}`;
+            });
+        });
+    </script>
+</body>
+</html>

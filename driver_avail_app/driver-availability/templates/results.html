@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Availability Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Driver Availability Results</h1>
+    </header>
+    <main>
+        <section class="results-section">
+            <div class="results-summary">
+                <h2>Summary</h2>
+                <p><strong>Number of Drivers Available:</strong> {{ available_drivers }}</p>
+            </div>
+            <div class="results-table">
+                <h2>Driver Availability Details:</h2>
+                {{ driver_availability|safe }}
+            </div>
+        </section>
+    </main>
+    <footer>
+        <a href="{{ url_for('index') }}" class="back-link">Back to Home</a>
+        <p>&copy; 2024 Driver Availability App</p>
+    </footer>
+</body>
+</html>
